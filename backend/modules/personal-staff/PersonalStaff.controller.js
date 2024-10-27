@@ -1,5 +1,13 @@
 const PersonalStaffService = require('./PersonalStaff.service');
 const PersonalStaffModel = require('./PersonalStaff.model')
+const {
+    getAllPersonalStaffCount,
+    getAllAtHolidayPersonStaffCount,
+    getAllOfficialJourneyPersonCount,
+    getLast5AtHolidayList,
+    getLast5MustComeFromHolidayList,
+    getNext5MustReturnTomorrow
+} = require("../dashboard/Dashboard.controller");
 // Yeni personel ekleme
 const addPersonalStaff = async (req, res) => {
     try {
@@ -34,8 +42,28 @@ const renderAddPersonalStaffPage = (req, res) => {
     res.render('add-personal-staff', { user: req.user });
 };
 
-const renderDashboardPage = (req, res) => {
-    res.render('index', { user: req.user });
+const renderDashboardPage = async (req, res) => {
+    try {
+        const allStaff = await getAllPersonalStaffCount();
+        const onHolidayCount = await getAllAtHolidayPersonStaffCount();
+        const officialJourneyCount = await getAllOfficialJourneyPersonCount();
+        const last5Holidays = await getLast5AtHolidayList();
+        const last5MustCome = await getLast5MustComeFromHolidayList();
+        const next5MustReturnTomorrow = await getNext5MustReturnTomorrow(); // Yeni fonksiyon
+        // Render the dashboard and pass all necessary data
+        res.render('dashboard', {
+            user: req.user,
+            allStaff: allStaff || [], // Ensure allStaff is defined
+            onHolidayCount: onHolidayCount || 0,
+            officialJourneyCount,
+            last5Holidays,
+            next5MustReturnTomorrow,
+            last5MustCome
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Bir hata oluştu');
+    }
 };
 
 module.exports = {

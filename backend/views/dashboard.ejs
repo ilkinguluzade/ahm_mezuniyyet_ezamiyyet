@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-bs-theme="light" data-color-theme="Blue_Theme" data-layout="vertical">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Favicon icon-->
+    <link rel="shortcut icon" type="image/png" href="../assets/images/logos/favicon.png" />
+
+    <!-- Core Css -->
+    <link rel="stylesheet" href="../assets/css/styles.css" />
+
+    <title>Şəxsi heyətin idarə edilməsi</title>
+    <!-- Owl Carousel  -->
+    <link rel="stylesheet" href="../assets/libs/owl.carousel/dist/assets/owl.carousel.min.css" />
+</head>
+
+<body>
+
+<!-- Preloader -->
+<div class="preloader">
+    <img src="../assets/images/logos/favicon.png" alt="loader" class="lds-ripple img-fluid" />
+</div>
+<div id="main-wrapper">
+    <!-- Sidebar Start -->
+    <%- include('partials/sidebar') %>
+    <!--  Sidebar End -->
+    <div class="page-wrapper">
+        <%- include('partials/header') %>
+
+
+        <div class="body-wrapper">
+            <div class="container-fluid">
+                <!--  Owl carousel -->
+                <div class="owl-carousel counter-carousel owl-theme">
+                    <div class="item">
+                        <div class="card border-0 zoom-in bg-primary-subtle shadow-none">
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <img src="../assets/images/svgs/icon-user-male.svg" width="50" height="50" class="mb-3" alt="modernize-img" />
+                                    <p class="fw-semibold fs-3 text-primary mb-1">
+                                        Şəxsi heyət
+                                    </p>
+                                    <h5 class="fw-semibold text-primary mb-0"><%= allStaff.length %></h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="card border-0 zoom-in bg-warning-subtle shadow-none">
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <img src="../assets/images/svgs/icon-favorites.svg" width="50" height="50" class="mb-3" alt="modernize-img" />
+                                    <p class="fw-semibold fs-3 text-warning mb-1">Məzuniyyətdə</p>
+                                    <h5 class="fw-semibold text-warning mb-0"><%= onHolidayCount %></h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="card border-0 zoom-in bg-info-subtle shadow-none">
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <img src="../assets/images/svgs/icon-briefcase.svg" width="50" height="50" class="mb-3" alt="modernize-img" />
+                                    <p class="fw-semibold fs-3 text-info mb-1">Ezamiyyətdə</p>
+                                    <h5 class="fw-semibold text-info mb-0"><%= officialJourneyCount %></h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="card border-0 zoom-in bg-danger-subtle shadow-none">
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <img src="../assets/images/svgs/icon-briefcase.svg" width="50" height="50" class="mb-3" alt="modernize-img" />
+                                    <p class="fw-semibold fs-3 text-danger mb-1">Yerində</p>
+                                    <h5 class="fw-semibold text-danger mb-0"><%= allStaff.length-onHolidayCount%></h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!--  Row 1 -->
+                <div class="row">
+
+
+
+                    <div class="col-lg-6 d-flex align-items-stretch">
+                        <div class="card w-100">
+                            <div class="card-body">
+                                <div class="d-sm-flex d-block align-items-center justify-content-between mb-7">
+                                    <div class="mb-3 mb-sm-0">
+                                        <h4 class="card-title fw-semibold">Məzuniyyətə göndərilən</h4>
+                                        <p class="card-subtitle">Son 5 nəfər</p>
+                                    </div>
+
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table align-middle text-nowrap mb-0">
+                                        <thead>
+                                        <tr class="text-muted fw-semibold">
+                                            <th scope="col" class="ps-0">Oppolet No</th>
+                                            <th scope="col">Hərbi rütbə</th>
+                                            <th scope="col" class="ps-0">S.A.A.</th>
+
+                                        </tr>
+                                        </thead>
+                                        <tbody class="border-top">
+                                        <% last5Holidays.forEach(person => { %>
+                                            <tr>
+                                                <td>
+                                                    <p class="mb-0 fs-3"><%= person.oppoletNumber %></p> <!-- Display Oppolet No -->
+                                                </td>
+                                                <td>
+                                                    <p class="mb-0 fs-3"><%= person.rank %></p> <!-- Display Rank -->
+                                                </td>
+                                                <td>
+                                                    <p class="mb-0 fs-3"><%= person.surname %> <%= person.name %> <%= person.fatherName %></p> <!-- Display Name -->
+                                                </td>
+                                            </tr>
+                                        <% }); %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 d-flex align-items-stretch">
+                        <div class="card w-100">
+                            <div class="card-body">
+                                <div class="d-sm-flex d-block align-items-center justify-content-between mb-7">
+                                    <div class="mb-3 mb-sm-0">
+                                        <h4 class="card-title fw-semibold">Sabah məzuniyyətdən qayıtmalı</h4>
+                                        <p class="card-subtitle">Son 5 nəfər</p>
+                                    </div>
+
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table align-middle text-nowrap mb-0">
+                                        <thead>
+                                        <tr class="text-muted fw-semibold">
+                                            <th scope="col" class="ps-0">Oppolet No</th>
+                                            <th scope="col">Hərbi rütbə</th>
+                                            <th scope="col" class="ps-0">S.A.A.</th>
+
+                                        </tr>
+                                        </thead>
+                                        <tbody class="border-top">
+                                        <% next5MustReturnTomorrow.forEach(person => { %>
+                                            <tr>
+                                                <td>
+                                                    <p class="mb-0 fs-3"><%= person.oppoletNumber %></p> <!-- Oppolet No -->
+                                                </td>
+                                                <td>
+                                                    <p class="mb-0 fs-3"><%= person.rank %></p> <!-- Rütbe -->
+                                                </td>
+                                                <td>
+                                                    <p class="mb-0 fs-3"><%= person.surname %> <%= person.name %> <%= person.fatherName %></p> <!-- Display Name -->
+                                                </td>
+                                            </tr>
+                                        <% }); %>
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+<!--                    <div class="col-lg-12 d-flex align-items-stretch">-->
+<!--                        <div class="card w-100">-->
+<!--                            <div class="card-body">-->
+<!--                                <div class="d-sm-flex d-block align-items-center justify-content-between mb-7">-->
+<!--                                    <div class="mb-3 mb-sm-0">-->
+<!--                                        <h4 class="card-title fw-semibold">Məzuniyyətdə olan şəxsi heyət</h4>-->
+<!--                                        <p class="card-subtitle">Son 5 nəfər</p>-->
+<!--                                    </div>-->
+
+<!--                                </div>-->
+<!--                                <div class="table-responsive">-->
+<!--                                    <table class="table align-middle text-nowrap mb-0">-->
+<!--                                        <thead>-->
+<!--                                        <tr class="text-muted fw-semibold">-->
+<!--                                            <th scope="col" class="ps-0">Oppolet No</th>-->
+<!--                                            <th scope="col">Hərbi rütbə</th>-->
+<!--                                            <th scope="col" class="ps-0">S.A.A.</th>-->
+<!--                                            <th scope="col" class="ps-0">Başlama tarixi</th>-->
+<!--                                            <th scope="col" class="ps-0">Bitmə tarixi</th>-->
+
+<!--                                        </tr>-->
+<!--                                        </thead>-->
+<!--                                        <tbody class="border-top">-->
+<!--                                        <tr>-->
+<!--                                            <td>-->
+<!--                                                <p class="mb-0 fs-3">123</p>-->
+<!--                                            </td>-->
+<!--                                            <td>-->
+<!--                                                <p class="mb-0 fs-3">Leytenant</p>-->
+<!--                                            </td>-->
+<!--                                            <td>-->
+<!--                                                <p class="mb-0 fs-3">Quluzadə İlkin Vasif</p>-->
+<!--                                            </td>-->
+<!--                                            <td>-->
+<!--                                                <p class="mb-0 fs-3">12.2.12</p>-->
+<!--                                            </td>-->
+<!--                                            <td>-->
+<!--                                                <p class="mb-0 fs-3">32.12.231</p>-->
+<!--                                            </td>-->
+<!--                                        </tr>-->
+
+<!--                                        </tbody>-->
+<!--                                    </table>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+
+
+</div>
+<div class="dark-transparent sidebartoggler"></div>
+<script src="../assets/js/vendor.min.js"></script>
+<!-- Import Js Files -->
+<script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/libs/simplebar/dist/simplebar.min.js"></script>
+<script src="../assets/js/theme/app.init.js"></script>
+<script src="../assets/js/theme/theme.js"></script>
+<script src="../assets/js/theme/app.min.js"></script>
+<script src="../assets/js/theme/sidebarmenu.js"></script>
+
+<!-- solar icons -->
+<script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+<script src="../assets/libs/owl.carousel/dist/owl.carousel.min.js"></script>
+<script src="../assets/libs/apexcharts/dist/apexcharts.min.js"></script>
+<script src="../assets/js/dashboards/dashboard.js"></script>
+</body>
+
+</html>

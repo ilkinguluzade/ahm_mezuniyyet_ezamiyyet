@@ -3,9 +3,9 @@
         <!-- Start Vertical Layout Sidebar -->
         <!-- ---------------------------------- -->
         <div class="brand-logo d-flex align-items-center justify-content-between">
-            <a href="../main/index.html" class="text-nowrap logo-img">
-                <img src="../assets/images/logos/dark-logo.svg" class="dark-logo" alt="Logo-Dark" />
-                <img src="../assets/images/logos/light-logo.svg" class="light-logo" alt="Logo-light" />
+            <a href="/" class="text-nowrap logo-img mt-3" >
+                <h4 style="font-weight: bold; text-align: center">Heydər Əliyev adına <br> Hərbi İnstitut</h4>
+
             </a>
             <a href="javascript:void(0)" class="sidebartoggler ms-auto text-decoration-none fs-5 d-block d-xl-none">
                 <i class="ti ti-x"></i>
@@ -89,7 +89,7 @@
                                 </a>
                             </li>
                         <% } %>
-                        
+
 
                     </ul>
                 </li>
@@ -121,8 +121,8 @@
                                 </a>
                             </li>
                         <% } %>
-                        
-                        
+
+
 
                     </ul>
                 </li>
@@ -135,11 +135,15 @@
                 </div>
                 <div class="john-title">
                     <h6 class="mb-0 fs-4 fw-semibold"><%= user.username %></h6> <!-- Kullanıcı adını burada göster -->
-                    <span class="fs-2">Designer</span>
+                    <span class="fs-2"><%= user.role %></span>
                 </div>
-                <button class="border-0 bg-transparent text-primary ms-auto" tabindex="0" type="button" aria-label="logout" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="logout">
+                <button class="border-0 bg-transparent text-primary ms-auto" tabindex="0" type="button"
+                        aria-label="logout" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="logout"
+                        onclick="window.location.href = '/logout'">
                     <i class="ti ti-power fs-6"></i>
                 </button>
+
+
             </div>
         </div>
 
@@ -148,3 +152,16 @@
         <!-- ---------------------------------- -->
     </div>
 </aside>
+<script>
+    function logout() {
+        // Çerezleri temizleme
+        document.cookie.split(";").forEach((cookie) => {
+            const name = cookie.split("=")[0].trim();
+            document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        });
+
+        // Kullanıcıyı logout işlemini gerçekleştiren backend endpoint'ine yönlendirme
+        window.location.href = '/logout';
+    }
+
+</script>

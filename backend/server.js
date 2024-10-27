@@ -2,13 +2,17 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
-const cookieParser = require('cookie-parser'); // Cookie-parser'ı içe aktar
+const cookieParser = require('cookie-parser');
+const session = require('express-session'); // express-session'ı ekleyin
+
 const AuthRoutes = require('./modules/auth/Auth.routes');
 const PersonalStaffRoutes = require('./modules/personal-staff/PersonalStaff.routes');
+const DashboardRoutes = require('./modules/dashboard/Dashboard.routes');
 const AtHolidayRoutes = require('./modules/at-holiday/AtHoliday.routes');
 const OfficialJourneyRoutes = require('./modules/official-journey/OfficialJourney.routes');
-const authMiddleware = require('./middlewares/authMiddleware'); // Middleware'i içe aktar
-const formatDate = require('./helpers/formatDate'); // Dosya yolunu kontrol et
+const authMiddleware = require('./middlewares/authMiddleware');
+const logoutMiddleware = require('./middlewares/logoutMiddleware');
+const formatDate = require('./helpers/formatDate');
 
 dotenv.config();
 
@@ -19,8 +23,18 @@ app.locals.formatDate = formatDate;
 
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: true })); // URL encoded verileri işlemek için
-app.use(cookieParser()); // Cookie-parser'ı middleware olarak ekle
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+
+// express-session yapılandırması
+app.use(
+    session({
+        secret: process.env.SESSION_SECRET || 'secret-key', // Güvenlik için environment variable kullanın
+        resave: false,
+        saveUninitialized: false,
+        cookie: { secure: false } // true yapmanız için https üzerinden çalıştırmanız gerekir
+    })
+);
 
 mongoose.connect(MONGO_STRING, {
     useNewUrlParser: true,
@@ -31,18 +45,16 @@ mongoose.connect(MONGO_STRING, {
 
 // Middleware
 app.use('^/assets', express.static('assets'));
-app.set('view engine', 'ejs'); // EJS'yi view engine olarak ayarlıyoruz
-app.set('views', __dirname + '/views'); // Görünüm dizinini ayarlıyoruz
+app.set('view engine', 'ejs');
+app.set('views', __dirname + '/views');
 
-app.use('/auth', AuthRoutes); // Auth rotalarını ekliyoruz
-
-// Anasayfa rotasında yetkilendirme middleware'ini kullan
-app.get('/', authMiddleware, (req, res) => {
-    res.render('index', { user: req.user }); // Anasayfayı render ediyor
-});
+// Routes
+app.use('/auth', AuthRoutes);
 app.use('/personal-staff', authMiddleware, PersonalStaffRoutes);
+app.use('/', authMiddleware, DashboardRoutes);
 app.use('/at-holiday', authMiddleware, AtHolidayRoutes);
 app.use('/all-official-journey', authMiddleware, OfficialJourneyRoutes);
+app.use('/logout', logoutMiddleware);
 
 app.listen(PORT, () => {
     console.log(`Server ${PORT} portunda işləyir.`);
